@@ -1,0 +1,174 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      [dg-cloak] {
+        display: none !important;
+      }
+    </style>
+    <!-- cloak style -->
+    <link rel="stylesheet" href="style.css" />
+    <script
+      type="module"
+      crossorigin="anonymous"
+      src="https://cdn.jsdelivr.net/npm/@peakman/dagger.js@0.9.17/dagger.release.js"
+      defer
+    ></script>
+    <!-- dagger.js script -->
+    <script type="dagger/configs">
+      {
+        "routing": {
+          "mode": "hash",
+          "aliases": {
+            "/parent3": "/parent1"
+          },
+          "default1": "/",
+          "redirects": {
+             "/parent4": "/parent2/child2-1"
+          },
+          "scenarios": {
+            "tailable": true,
+              "variables": {
+                "number": 0,
+                "array": [0]
+              },
+              "constants": {
+                "title": "root title"
+              },
+              "modules": {
+                "script1": "https://codepen.io/dagger8224/pen/PoQBovd.js"
+              },
+              "children": [{
+                "path": "parent1",
+                "tailable": true,
+                "variables": {
+                  "number": 2,
+                  "string": "default parent1 content"
+                },
+                "constants": {
+                  "title": "parent1 title",
+                  "template": "view"
+                },
+                "modules": {
+                  "view": "./view1.html"
+                },
+                "children1": [{
+                  "path": "child1-1",
+                  "tailable": true,
+                  "variables": {
+                    "number": 3,
+                    "string": "default child1-1 content"
+                  },
+                  "constants": {
+                    "title": "child1-1 title"
+                  }
+                }, {
+                  "path": "child1-2",
+                  "tailable": true,
+                  "variables": {
+                    "number": 4,
+                    "string": "default child1-2 content"
+                  },
+                  "constants": {
+                    "title": "child1-2 title"
+                  }
+                }]
+              }, {
+                "path": "parent2",
+                "tailable": true,
+                "variables": {
+                  "number": 5,
+                  "string": "default parent2 content"
+                },
+                "constants": {
+                  "title": "parent2 title"
+                },
+                "children": [{
+                  "path": "child2-1",
+                  "tailable": true,
+                  "variables": {
+                    "number": 6,
+                    "string": "default child2-1 content"
+                  },
+                  "constants": {
+                    "title": "child2-1 title"
+                  }
+                }, {
+                  "path": "child2-2",
+                  "tailable": true,
+                  "variables": {
+                    "number": 7,
+                    "string": "default child2-2 content"
+                  },
+                  "constants": {
+                    "title": "child2-2 title"
+                  }
+                }]
+              }]
+          }
+        }
+      }
+    </script>
+    <title>dagger demo page</title>
+  </head>
+
+  <body>
+    <div
+      dg-cloak
+      +loading="{ hash: '?number=1' }"
+      $watch="location.hash = hash"
+    >
+      Input hash:<input $value="hash" />
+      <button +click="hash = '?number=10&string=abc&title=root'">root</button>
+      <button +click="hash = 'parent1?number=10&string=abc&title=hello'">
+        parent1
+      </button>
+      <button
+        +click="hash = 'parent1/child1-1?number=11&string=abcd&title=hello&data=11'"
+      >
+        child1-1
+      </button>
+      <button
+        +click="hash = 'parent1/child1-2?number=12&string=abcde&title=hello&data=12'"
+      >
+        child1-2
+      </button>
+      <button +click="hash = 'parent2?string=abc&title=hello'">parent2</button>
+      <button
+        +click="hash = 'parent2/child2-1?number=13&array=[1,2]&string=ab&title=hello'"
+      >
+        child2-1
+      </button>
+      <button
+        +click="hash = 'parent2/child2-2?number=14&string=abc&title=hello'"
+      >
+        child2-2
+      </button>
+      <button +click="hash = 'parent3?number=15&string=abc&title=hello'">
+        parent3 (alias)
+      </button>
+      <button +click="hash = 'parent4?number=16&string=abc&title=hello'">
+        parent4 (redirect)
+      </button>
+      <button +click="hash = 'parent5?number=16&string=abc&title=hello'">
+        parent5 (invalid)
+      </button>
+    </div>
+    <div class="container">
+      <div class="menu">
+        <button class="toggle">router path: ${$router.path}</button>
+        <ul class="list">
+          <li class="list-item" $each#item:field="Object.keys($router)">
+            ${ index }. The "$router.${ field }" is:
+            <span>${ JSON.stringify($router[field]) }</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      $html="`<${console.log($router), $router.schemes.template }'></${ $router.schemes.template }>`"
+    ></div>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+input {
+  width: 200px;
+}
+input,
+button {
+  margin: 10px;
+}
+ul {
+  margin-top: 0;
+}
+div,
+li {
+  margin: 5px 0;
+}
+span {
+  background-color: #7497e1;
+  margin-left: 5px;
+}
+
+html {
+  background-color: #0e1d3e;
+  color: #eccc56;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+html {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  background-color: #23232b;
+}
+
+.menu {
+  display: grid;
+  grid-template-rows: 40px max-content;
+}
+
+.toggle {
+  all: unset;
+  background-color: dodgerblue;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  cursor: pointer;
+}
+
+.toggle::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-width: 0 3px 3px 0;
+  border-style: solid;
+  transform: rotate(45deg);
+  transition: 0.4s;
+}
+
+.list {
+  background-color: white;
+  color: #444;
+  list-style: none;
+  display: grid;
+  overflow: visible;
+  height: 0;
+  transition: 0.4s;
+}
+
+.list-item {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  transition: 0.4s, transform 0.4s var(--delay);
+  transform: translateX(-100%);
+  user-select: none;
+  cursor: pointer;
+}
+
+.list-item:hover {
+  background-color: dodgerblue;
+  color: #fff;
+}
+
+.toggle:focus::after {
+  transform: rotate(225deg);
+}
+
+.toggle:focus ~ .list {
+  height: auto;
+}
+
+.toggle:focus ~ .list .list-item {
+  transform: translateX(0);
+}

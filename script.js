@@ -1,0 +1,1 @@
+export const func = (message) => alert(`The message is: ${message}`);
